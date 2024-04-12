@@ -22,7 +22,7 @@ plugins {
 }
 ```
 
-Clone this repository and then call
+Clone this repository and then call the following **from within** IntelliJ Plugin directory
 
 ```shell
 python3 /path/to/mermaid_representation.py
