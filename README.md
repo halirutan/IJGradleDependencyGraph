@@ -2,7 +2,7 @@
 
 This Python script uses the Gradle plugin `com.dorongold.task-tree` to calculate
 the task dependencies of all tasks in a
-[Gradle IntelliJ Plugin](https://github.com/JetBrains/intellij-platform-gradle-plugin).
+[IntelliJ Platform Gradle Plugin](https://github.com/JetBrains/intellij-platform-gradle-plugin).
 From this dependency tree, it calculates all edges between nodes and creates a 
 [Mermaid FlowChart](https://mermaid.js.org/) string representation that can be rendered as an image like this:
 
@@ -10,7 +10,7 @@ From this dependency tree, it calculates all edges between nodes and creates a
 
 # Usage
 
-First, you need to have an IntelliJ Plugin project that uses the Gradle IntelliJ Plugin build setup.
+First, you need to have an IntelliJ Platform Plugin project that uses the IntelliJ Platform Gradle Plugin build setup.
 You should have all tasks configured properly because otherwise, the dependency calculation will fail for
 certain tasks.
 
@@ -44,5 +44,5 @@ Additionally, the `mermaid_representation.MermaidStyle` gives another way of rep
 in the same style.
 Again, it needs to be discussed which nodes belong to the same style group.
 
-Finally, during the analysis, we will find connections of IntelliJ Tasks to core Gradle tasks, and it's not clear
-if we should show them or not.
+Finally, during the analysis, we will find connections of IntelliJ Platform Gradle Plugin
+Tasks to core Gradle tasks, and it's not clear if we should show them or not.
