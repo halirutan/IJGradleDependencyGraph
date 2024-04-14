@@ -1,0 +1,8 @@
+:checkKotlinGradlePluginConfigurationErrors
+:compileTestKotlin
+:initializeIntellijPlatformPlugin
+:instrumentTestCode
+:patchChangelog
+:prepareTestSandbox
+:prepareTestSandbox_141624a2
+:prepareTestSandbox_af9fa141

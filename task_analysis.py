@@ -1,3 +1,4 @@
+from config import Config
 import subprocess
 from typing import List
 
@@ -17,7 +18,8 @@ def run_gradle_task_tree(task: str) -> str:
              "--repeat",
              task], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
         return result.stdout.decode()
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
+        print(e)
         raise RuntimeError(f"FAILED: Running Gradle taskTree with task '{task}' failed")
 
 
@@ -80,3 +82,30 @@ def collect_gradle_task_dependencies(task_name: str) -> set[tuple[str, str]]:
     except RuntimeError as e:
         print(e)
         return set()
+
+
+def collect_all_gradle_task_dependencies(config: Config) -> tuple[set[tuple[str, str]], set[str]]:
+    """
+    This method collects all the Gradle task dependencies based on the provided configuration.
+    It iterates over the included tasks in the configuration and calculates the dependency tasks for each task.
+
+    :param config: The configuration for collecting task dependencies.
+    :return: A tuple containing two sets of edges.
+             The first set represents the cleaned dependencies only containing tasks that are included.
+             The second set represents the removed/ignored dependencies.
+    """
+    dependencies = set()
+    for task in Config.included_tasks:
+        print(f"Calculating dependencies for task '{task.name}'")
+        dependencies = dependencies.union(collect_gradle_task_dependencies(task.name))
+    print(f"\n\nFound {len(dependencies)} edges. Cleaning up now...")
+    cleaned_dependencies = {vert for vert in dependencies
+                            if config.is_included_task(vert[0]) and config.is_included_task(vert[1])}
+    print(f"Now having only {len(cleaned_dependencies)} edges")
+    excluded_tasks = set()
+    for e in dependencies:
+        if not config.is_included_task(e[0]):
+            excluded_tasks.add(e[0])
+        if not config.is_included_task(e[1]):
+            excluded_tasks.add(e[1])
+    return cleaned_dependencies, excluded_tasks
